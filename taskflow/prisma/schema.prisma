@@ -19,6 +19,17 @@ model User{
   name String
   lastname String?
   password String
+  sessions Session[]
 
   createdAt DateTime @default(now())
+}
+
+model Session{
+  id Int @id @default(autoincrement())
+  sessionId String @unique
+  
+  userId Int 
+  user User @relation(fields: [userId], references: [id])
+  
+  expiresAt DateTime
 }

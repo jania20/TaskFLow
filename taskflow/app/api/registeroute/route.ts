@@ -12,10 +12,11 @@ export async function POST(request: Request){
     const body = await request.json();
     const {name, lastname, email, password} = body;
 
+    const loweremail = email.lowercase();
     /*===========================
         EMPTY FIELD VALIDATIONS
     ============================*/
-    if(!name || !email || !password){
+    if(!name || !loweremail || !password){
         return NextResponse.json(
             {error: "Fields can not be empty"},
             {status:400 }
@@ -56,7 +57,7 @@ export async function POST(request: Request){
     ===========================================*/
     const existingUser = await prisma.user.findUnique({
         where: {
-            email: email
+            email: loweremail
         },
     });
     if (existingUser){
